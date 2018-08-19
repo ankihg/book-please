@@ -17,5 +17,5 @@ class Book(models.Model):
 class BookWish(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    date_wished = models.DateTimeField(true)
+    date_wished = models.DateTimeField(True)
     date_granted = models.DateTimeField()
