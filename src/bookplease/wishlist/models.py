@@ -12,7 +12,7 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     isbn = models.CharField(max_length=17)
-    publication_date = models.DateTimeField()
+    date_published = models.DateTimeField()
 
 class BookWish(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
