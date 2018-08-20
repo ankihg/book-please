@@ -29,7 +29,7 @@ class WishListTestCase(TestCase):
         user_tad = User.objects.get(first_name="tad")
         book = Book.objects.get(title="lost on lancaster")
         c = Client()
-        response = c.post('/wishlist/bookWish', {'user_id': user_tad.id, 'book_id': book.id})
+        response = c.post('/wishlist/bookWish', {'user_id': user_tad.id, 'book_id': book.id}, content_type="application/json")
 
         print(response.content)
         s = response.content.decode("utf-8")
@@ -41,4 +41,4 @@ class WishListTestCase(TestCase):
         # dict = json.load(response.content)
         # dict=json.loads(s)
         print(d)
-        print(d['plz'])
+        print(d['user_id'])
