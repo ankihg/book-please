@@ -38,3 +38,9 @@ def add_book_to_wish_list(request):
     print(book_wish_json)
 
     return HttpResponse(book_wish_json)
+
+
+
+# TODO
+# register user https://docs.djangoproject.com/en/2.1/topics/auth/default/#creating-users
+# authenticate user https://docs.djangoproject.com/en/2.1/topics/auth/default/#authenticating-users
