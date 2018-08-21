@@ -17,7 +17,6 @@ def index(request):
     output = ', '.join([b.title for b in latest_book_list])
     return HttpResponse(output)
 
-@ensure_csrf_cookie
 def add_book_to_wish_list(request):
     print('hello add_book_to_wish_list')
     # latest_book_list = Book.objects.order_by('-date_published')[:5]
@@ -41,7 +40,8 @@ def add_book_to_wish_list(request):
     book_wish = BookWish(user_id=body['user_id'], book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
     book_wish.save()
-    book_wish_json = serializers.serialize('json', [ book_wish ])
+    # book_wish_json = serializers.serialize('json', [ book_wish ])
+    book_wish_json = serializers.serialize('json', BookWish.objects.all())
 
     # book_wish_json = json.loads(book_wish.encode('utf-8'))
     print(book_wish_json)
