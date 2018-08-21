@@ -40,5 +40,5 @@ class WishListTestCase(TestCase):
         # print(response.content)
         # dict = json.load(response.content)
         # dict=json.loads(s)
-        print(d)
-        print(d['user_id'])
+        print(d[0])
+        # print(d[0]['user_id'])
