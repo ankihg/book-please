@@ -36,9 +36,10 @@ def login_user(request):
     password = body['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
-        output = login(request, user)
-        print(output)
+        login(request, user)
         print(request)
+        user_json = serializers.serialize('json', [ user ])
+        return HttpResponse(user_json)
 
 def add_book_to_wish_list(request):
     print('hello add_book_to_wish_list')
@@ -47,9 +48,12 @@ def add_book_to_wish_list(request):
     # return HttpResponse(output)
 
     body = _parse_body(request)
+    user = _authenticate(request, body)
+    print('authenticated user')
+    print(user)
+    print(user.id)
 
-
-    book_wish = BookWish(user_id=body['user_id'], book_id=body['book_id'], date_wished=timezone.now())
+    book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
     book_wish.save()
     book_wish_json = serializers.serialize('json', [ book_wish ])
@@ -67,6 +71,11 @@ def _parse_body(request):
     print(body)
     return body
 
+def _authenticate(request, body):
+    credentials = body['credentials']
+    username = credentials['username']
+    password = credentials['password']
+    return authenticate(request, username=username, password=password)
 
 
 # TODO
