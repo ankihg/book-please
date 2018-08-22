@@ -1,11 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.CharField(max_length=80)
-    password = models.CharField(max_length=80)
-    token = models.CharField(max_length=40)
+# class User(models.Model):
+#     first_name = models.CharField(max_length=50)
+#     last_name = models.CharField(max_length=50)
+#     email = models.CharField(max_length=80)
+#     password = models.CharField(max_length=80)
+#     token = models.CharField(max_length=40)
 
 
 class Book(models.Model):
