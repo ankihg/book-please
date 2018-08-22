@@ -10,6 +10,7 @@ from django.core import serializers
 import json
 
 from .models import User, Book, BookWish
+from django.contrib.auth import authenticate, login
 
 
 def index(request):
@@ -20,13 +21,24 @@ def index(request):
 def register_user(request):
     print('welcome register_user')
     body = _parse_body(request)
-    user = User.objects.create_user(body['first_name'], body['email'], body['password'])
+    user = User.objects.create_user(body['email'], body['email'], body['password'])
     user.first_name = body['first_name']
     user.last_name = body['last_name']
     user.save()
     print(user)
     user_json = serializers.serialize('json', [ user ])
     return HttpResponse(user_json)
+
+def login_user(request):
+    print('welcome login_user')
+    body = _parse_body(request)
+    username = body['username']
+    password = body['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        output = login(request, user)
+        print(output)
+        print(request)
 
 def add_book_to_wish_list(request):
     print('hello add_book_to_wish_list')

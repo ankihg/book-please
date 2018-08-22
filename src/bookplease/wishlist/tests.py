@@ -24,6 +24,9 @@ class WishListTestCase(TestCase):
         print('user_tad_json')
         print(user_tad_json)
 
+        c = Client()
+        response = c.post('/wishlist/users/login', {'username': 'tad@meow.cat', 'password': 'sal3m'}, content_type="application/json")
+
         # Book.objects.create(title="play in motion", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
         # Book.objects.create(title="of mice and men", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
 
@@ -41,7 +44,7 @@ class WishListTestCase(TestCase):
         user_tad = User.objects.get(first_name="tad")
         book = Book.objects.get(title="lost on lancaster")
         c = Client()
-        response = c.post('/wishlist/bookWish', {'user_id': user_tad.id, 'book_id': book.id}, content_type="application/json")
+        response = c.post('/wishlist/bookWish', {'user_id': user_tad.id, 'book_id': book.id}, content_type="application/json", authentication="tad@meow.cat sal3m")
 
         print(response.content)
         s = response.content.decode("utf-8")
