@@ -12,6 +12,9 @@ class WishListTestCase(TestCase):
         self.load_books()
         self.register_user()
         self.login_user()
+        books = self.get_books()
+        print('print the books')
+        print(books)
 
 
     def load_books(self):
@@ -50,14 +53,11 @@ class WishListTestCase(TestCase):
     def get_books(self):
         c = Client()
         response = c.get('/wishlist/books', content_type="application/json")
-        s = response.content.decode("utf-8")
-        d = json.loads(s)
-        print('get_books')
-        print(d)
+        return _parse_response(response)
 
 
     def add_book_to_wish_list(self):
-        """Animals that can speak are correctly identified"""
+        """Add a book to user's wishlist"""
         print('hii')
         self.get_books()
 
@@ -109,7 +109,15 @@ class WishListTestCase(TestCase):
         url = '/wishlist/users/{:d}/bookWishes'.format(user_tad.id)
         print(url)
         response = c.get(url, content_type="application/json")
+
         s = response.content.decode("utf-8")
         response_json = json.loads(s)
         print('user bookWish model')
         print(response_json)
+
+
+
+# HELPER FNS
+def _parse_response(response):
+    s = response.content.decode("utf-8")
+    return json.loads(s)
