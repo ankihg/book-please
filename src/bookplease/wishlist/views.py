@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
 from django.http import HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils import timezone
@@ -42,11 +41,6 @@ def login_user(request):
         return HttpResponse(user_json)
 
 def add_book_to_wish_list(request):
-    print('hello add_book_to_wish_list')
-    # latest_book_list = Book.objects.order_by('-date_published')[:5]
-    # output = ', '.join([b.title for b in latest_book_list])
-    # return HttpResponse(output)
-
     body = _parse_body(request)
     user = _authenticate(request, body)
     print('authenticated user')
@@ -57,7 +51,6 @@ def add_book_to_wish_list(request):
     print(book_wish)
     book_wish.save()
     book_wish_json = serializers.serialize('json', [ book_wish ])
-    # book_wish_json = serializers.serialize('json', BookWish.objects.all())
 
     print(book_wish_json)
 
@@ -65,8 +58,6 @@ def add_book_to_wish_list(request):
 
 
 def get_user_book_wishes(request, user_id):
-    print('welcome get_user_book_wishes')
-    # TODO filter date_granted=NULL
     book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
     book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
     books = Book.objects.filter(id__in=book_ids)
@@ -78,6 +69,7 @@ def get_user_book_wishes(request, user_id):
     books_json = serializers.serialize('json', books)
     print(books_json)
     return HttpResponse(books_json)
+
 
 
 def _parse_body(request):
