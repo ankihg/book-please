@@ -66,11 +66,18 @@ def add_book_to_wish_list(request):
 
 def get_user_book_wishes(request, user_id):
     print('welcome get_user_book_wishes')
-    print(user_id)
-    book_wishes = BookWish.objects.filter(user_id=user_id)
+    # TODO filter date_granted=NULL
+    book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
+    book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
+    books = Book.objects.filter(id__in=book_ids)
+    print('books')
+    print(books)
+    print('book_wishes')
     print(book_wishes)
     book_wishes_json = serializers.serialize('json', book_wishes)
-    return HttpResponse(book_wishes_json)
+    books_json = serializers.serialize('json', books)
+    print(books_json)
+    return HttpResponse(books_json)
 
 
 def _parse_body(request):
