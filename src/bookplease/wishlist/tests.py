@@ -41,9 +41,19 @@ class WishListTestCase(TestCase):
     #     self.assertEqual(lion.speak(), 'The lion says "roar"')
     #     self.assertEqual(cat.speak(), 'The cat says "meow"')
 
+    def get_books(self):
+        c = Client()
+        response = c.get('/wishlist/books', content_type="application/json")
+        s = response.content.decode("utf-8")
+        d = json.loads(s)
+        print('get_books')
+        print(d)
+
+
     def add_book_to_wish_list(self):
         """Animals that can speak are correctly identified"""
         print('hii')
+        self.get_books()
 
         user_tad = User.objects.get(first_name="tad")
         book = Book.objects.get(title="lost on lancaster")
@@ -90,7 +100,7 @@ class WishListTestCase(TestCase):
         user_tad = User.objects.get(first_name="tad")
         book = Book.objects.get(title="lost on lancaster")
         c = Client()
-        url = '/wishlist/user/{:d}/bookWishes'.format(user_tad.id)
+        url = '/wishlist/users/{:d}/bookWishes'.format(user_tad.id)
         print(url)
         response = c.get(url, content_type="application/json")
         s = response.content.decode("utf-8")

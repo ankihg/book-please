@@ -42,6 +42,19 @@ def login_user(request):
         return HttpResponse(user_json)
 
 
+# BOOK ROUTES
+def get_books(request):
+    books = Book.objects.order_by('-date_published')
+    books_json = serializers.serialize('json', books)
+    print(books_json)
+    return HttpResponse(books_json)
+
+
+def get_books_by_author(request, author):
+    books = Book.objects.filter(author=author).order_by('-date_published')
+    books_json = serializers.serialize('json', books)
+    print(books_json)
+    return HttpResponse(books_json)
 
 
 # BOOKWISH ROUTES
@@ -59,7 +72,6 @@ def add_book_to_wish_list(request):
 
     return HttpResponse(book_wish_json)
 
-
 def get_user_book_wishes(request, user_id):
     book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
     book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
@@ -75,6 +87,7 @@ def get_user_book_wishes(request, user_id):
 
 
 
+# HELPER FNS
 def _parse_body(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
