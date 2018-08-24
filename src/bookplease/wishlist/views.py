@@ -64,6 +64,11 @@ def add_book_to_wish_list(request):
     return HttpResponse(book_wish_json)
 
 
+def get_user_book_wishes(request, user_id):
+    print('welcome get_user_book_wishes')
+    print(user_id)
+
+
 def _parse_body(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)

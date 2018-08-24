@@ -61,3 +61,16 @@ class WishListTestCase(TestCase):
         # dict=json.loads(s)
         print(d[0])
         # print(d[0]['user_id'])
+        self.get_user_book_wist_list()
+
+    def get_user_book_wist_list(self):
+        user_tad = User.objects.get(first_name="tad")
+        book = Book.objects.get(title="lost on lancaster")
+        c = Client()
+        url = '/wishlist/user/{:d}/bookWishes'.format(user_tad.id)
+        print(url)
+        response = c.get(url, content_type="application/json")
+        s = response.content.decode("utf-8")
+        response_json = json.loads(s)
+        print('user bookWish model')
+        print(response_json)
