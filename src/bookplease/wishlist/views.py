@@ -17,6 +17,7 @@ def index(request):
     output = ', '.join([b.title for b in latest_book_list])
     return HttpResponse(output)
 
+# USER ROUTES
 def register_user(request):
     print('welcome register_user')
     body = _parse_body(request)
@@ -40,11 +41,13 @@ def login_user(request):
         user_json = serializers.serialize('json', [ user ])
         return HttpResponse(user_json)
 
+
+
+
+# BOOKWISH ROUTES
 def add_book_to_wish_list(request):
     body = _parse_body(request)
     user = _authenticate(request, body)
-    print('authenticated user')
-    print(user)
     print(user.id)
 
     book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
