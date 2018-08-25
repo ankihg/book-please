@@ -6,6 +6,8 @@ from django.utils import timezone
 
 from django.core import serializers
 
+from django.core.serializers.json import DjangoJSONEncoder
+
 import json
 
 from .models import User, Book, BookWish
@@ -45,7 +47,10 @@ def login_user(request):
 # BOOK ROUTES
 def get_books(request):
     books = Book.objects.order_by('-date_published')
-    books_json = serializers.serialize('json', books)
+    # books_json = serializers.serialize('json', books)
+    # print(books_json)
+    books_json = _prep_response(books)
+    print('books_json')
     print(books_json)
     return HttpResponse(books_json)
 
@@ -94,6 +99,22 @@ def _parse_body(request):
     print('print body')
     print(body)
     return body
+
+def _prep_response(data):
+    # this gives you a list of dicts
+    raw_data = serializers.serialize('python', data)
+    # now extract the inner `fields` dicts
+    print('raw_data')
+    print(raw_data)
+    actual_data = [d['fields'] for d in raw_data]
+    # and now dump to JSON
+    # output = json.dumps(actual_data)
+    # return output;
+    return json.dumps(
+      actual_data,
+      sort_keys=True,
+      indent=1,
+      cls=DjangoJSONEncoder)
 
 def _authenticate(request, body):
     credentials = body['credentials']
