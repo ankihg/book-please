@@ -47,6 +47,10 @@ def login_user(request):
 # BOOK ROUTES
 def get_books(request):
     books = Book.objects.order_by('-date_published')
+    print('books[1]')
+    print(books[1])
+    print(books[1].id)
+    print(books[1].title)
     # books_json = serializers.serialize('json', books)
     # print(books_json)
     books_json = _prep_response(books)
@@ -106,15 +110,26 @@ def _prep_response(data):
     # now extract the inner `fields` dicts
     print('raw_data')
     print(raw_data)
-    actual_data = [d['fields'] for d in raw_data]
+    # actual_data = [d['fields'] for d in raw_data]
+    actual_data = list(map(_build_response_object, raw_data))
     # and now dump to JSON
     # output = json.dumps(actual_data)
     # return output;
+    print('actual_data')
+    print(actual_data)
     return json.dumps(
       actual_data,
       sort_keys=True,
       indent=1,
       cls=DjangoJSONEncoder)
+
+def _build_response_object(model):
+    print('model')
+    print(model)
+    d = model['fields']
+    d['id'] = model['pk']
+    return d
+
 
 def _authenticate(request, body):
     credentials = body['credentials']
