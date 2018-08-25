@@ -46,11 +46,15 @@ def login_user(request):
 
 # BOOK ROUTES
 def get_books(request):
-    books = Book.objects.order_by('-date_published')
-    print('books[1]')
-    print(books[1])
-    print(books[1].id)
-    print(books[1].title)
+    print('get_books now')
+    author = request.GET.get('author', '')
+    print(author)
+    print(type(author))
+    if (author == ''):
+        books = Book.objects.order_by('-date_published')
+    else:
+        books = Book.objects.filter(author=author).order_by('-date_published')
+
     # books_json = serializers.serialize('json', books)
     # print(books_json)
     books_json = _prep_response(books)

@@ -15,11 +15,13 @@ class WishListTestCase(TestCase):
         self.load_books()
         self.register_user(tad_user_data)
         self.login_user(tad_user_creds)
-        # print('logd_user')
-        # print(logd_user)
-        books = self.get_books()
-        print('print the books')
-        print(books)
+
+        all_books = self.get_books()
+        print('all_books')
+        print(all_books)
+        books_by_mystery_kitty = self.get_books_by('mystery kitty')
+        print('books_by_mystery_kitty')
+        print(books_by_mystery_kitty)
 
 
     def load_books(self):
@@ -52,6 +54,13 @@ class WishListTestCase(TestCase):
         response = c.get('/wishlist/books', content_type="application/json")
         return _parse_response(response)
 
+    def get_books_by(self, author):
+        c = Client()
+        url = '/wishlist/books/?author={:s}'.format(author)
+        print('url')
+        print(url)
+        response = c.get(url, content_type="application/json")
+        return _parse_response(response)
 
     def add_book_to_wish_list(self):
         """Add a book to user's wishlist"""
