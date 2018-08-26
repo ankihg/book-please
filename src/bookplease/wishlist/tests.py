@@ -78,30 +78,9 @@ class WishListTestCase(TestCase):
 
     def add_book_to_wish_list(self, user_creds, book_id):
         """Add a book to user's wishlist"""
-        print('add_book_to_wish_list')
-        print(user_creds)
-        print(book_id)
-        # self.get_books()
-        #
-        # user_tad = User.objects.get(first_name="tad")
-        # book = Book.objects.get(title="lost on lancaster")
         c = Client()
-        # response = c.post('/wishlist/bookWish', {'credentials': {'username': 'tad@meow.cat', 'password': 'sal3m'}, 'book_id': book.id}, content_type="application/json")
         response = c.post('/wishlist/bookWish', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
         return _parse_response(response)[0]
-        # print(response.content)
-        # s = response.content.decode("utf-8")
-        # print(type(s))
-        # print(s)
-        # d = json.loads(s)
-
-        # print(response.content)
-        # dict = json.load(response.content)
-        # dict=json.loads(s)
-        # print(d[0])
-        # print(d[0]['user_id'])
-        # self.add_another_book_to_wish_list()
-        # self.get_user_book_wist_list()
 
     def add_another_book_to_wish_list(self):
         """Animalsthat can speak are correctly identified"""
