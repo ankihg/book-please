@@ -34,14 +34,14 @@ class WishListTestCase(TestCase):
         # get books
         # all_books = self.get_books
 
-        # browse latest books by mystery kitty
-        books_by_mystery_kitty = self.get_books_by('mystery kitty')
+        # browse latest books by Mystery Kitty
+        books_by_mystery_kitty = self.get_books_by('Mystery Kitty')
         self.assertEqual(len(books_by_mystery_kitty), 1)
 
         # select book
         book_to_wish_for = books_by_mystery_kitty[0]
-        self.assertEqual(book_to_wish_for['author'], 'mystery kitty')
-        self.assertEqual(book_to_wish_for['title'], 'lost on lancaster')
+        self.assertEqual(book_to_wish_for['author'], 'Mystery Kitty')
+        self.assertEqual(book_to_wish_for['title'], 'Lost on Lancaster')
 
         # user tad adds book to wish list
         book_wish = self.add_book_to_wish_list(tad_user_creds, book_to_wish_for['id'])
@@ -89,7 +89,7 @@ class WishListTestCase(TestCase):
 
     def get_user_book_wist_list(self):
         user_tad = User.objects.get(first_name="tad")
-        book = Book.objects.get(title="lost on lancaster")
+        book = Book.objects.get(title="Lost on Lancaster")
         c = Client()
         url = '/wishlist/users/{:d}/bookWishes'.format(user_tad.id)
         print(url)
