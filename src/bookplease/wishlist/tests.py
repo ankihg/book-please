@@ -56,12 +56,6 @@ class WishListTestCase(TestCase):
         response = c.post('/wishlist/users/login', {'username': 'tad@meow.cat', 'password': 'sal3m'}, content_type="application/json")
         return _parse_response(response)[0]
 
-    # def add_book_to_wish_list(self):
-    #     """Animals that can speak are correctly identified"""
-    #     lion = Animal.objects.get(name="lion")
-    #     cat = Animal.objects.get(name="cat")
-    #     self.assertEqual(lion.speak(), 'The lion says "roar"')
-    #     self.assertEqual(cat.speak(), 'The cat says "meow"')
 
     def get_books(self):
         c = Client()
@@ -81,28 +75,6 @@ class WishListTestCase(TestCase):
         c = Client()
         response = c.post('/wishlist/bookWish', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
         return _parse_response(response)[0]
-
-    def add_another_book_to_wish_list(self):
-        """Animalsthat can speak are correctly identified"""
-        print('hii')
-
-        user_tad = User.objects.get(first_name="tad")
-        book = Book.objects.get(title="rush the fence")
-        c = Client()
-        response = c.post('/wishlist/bookWish', {'credentials': {'username': 'tad@meow.cat', 'password': 'sal3m'}, 'book_id': book.id}, content_type="application/json")
-
-        print(response.content)
-        s = response.content.decode("utf-8")
-        print(type(s))
-        print(s)
-        d = json.loads(s)
-
-        # print(response.content)
-        # dict = json.load(response.content)
-        # dict=json.loads(s)
-        print(d[0])
-        # print(d[0]['user_id'])
-        self.get_user_book_wist_list()
 
     def get_user_book_wist_list(self):
         user_tad = User.objects.get(first_name="tad")
