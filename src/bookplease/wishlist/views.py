@@ -40,7 +40,8 @@ def login_user(request):
     if user is not None:
         login(request, user)
         print(request)
-        user_json = serializers.serialize('json', [ user ])
+        # user_json = serializers.serialize('json', [ user ])
+        user_json = _prep_response([ user ])
         return HttpResponse(user_json)
 
 

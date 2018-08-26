@@ -14,14 +14,12 @@ class WishListTestCase(TestCase):
         # User.objects.create(first_name="hilda", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
         self.load_books()
         self.register_user(tad_user_data)
-        self.login_user(tad_user_creds)
+        user_tad = self.login_user(tad_user_creds)
+        print('user_tad')
+        print(user_tad)
 
         all_books = self.get_books()
-        print('all_books')
-        print(all_books)
         books_by_mystery_kitty = self.get_books_by('mystery kitty')
-        print('books_by_mystery_kitty')
-        print(books_by_mystery_kitty)
 
 
     def load_books(self):
