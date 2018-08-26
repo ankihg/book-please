@@ -18,9 +18,6 @@ class WishListTestCase(TestCase):
         # register and login user tad
         self.register_user(tad_user_data)
         user_tad = self.login_user(tad_user_creds)
-
-        print('user_tad')
-        print(user_tad)
         self.assertEqual(user_tad['first_name'], tad_user_data['first_name'])
         self.assertEqual(user_tad['username'], tad_user_data['email'])
         self.assertEqual(user_tad['email'], tad_user_data['email'])
@@ -30,22 +27,14 @@ class WishListTestCase(TestCase):
 
         # browse latest books by mystery kitty
         books_by_mystery_kitty = self.get_books_by('mystery kitty')
-        print('books_by_mystery_kitty')
-        print(books_by_mystery_kitty)
         self.assertEqual(len(books_by_mystery_kitty), 1)
-
 
         # select book
         book_to_wish_for = books_by_mystery_kitty[0]
-        print('the book')
-        print(book_to_wish_for)
         self.assertEqual(book_to_wish_for['author'], 'mystery kitty')
         self.assertEqual(book_to_wish_for['title'], 'lost on lancaster')
 
-
         book_wish = self.add_book_to_wish_list(tad_user_creds, book_to_wish_for['id'])
-        print('book_wish')
-        print(book_wish)
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
 
