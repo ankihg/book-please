@@ -28,7 +28,7 @@ def register_user(request):
     user.last_name = body['last_name']
     user.save()
     print(user)
-    user_json = serializers.serialize('json', [ user ])
+    user_json = _prep_response([ user ])
     return HttpResponse(user_json)
 
 def login_user(request):
@@ -59,17 +59,7 @@ def get_books(request):
     # books_json = serializers.serialize('json', books)
     # print(books_json)
     books_json = _prep_response(books)
-    print('books_json')
-    print(books_json)
     return HttpResponse(books_json)
-
-
-def get_books_by_author(request, author):
-    books = Book.objects.filter(author=author).order_by('-date_published')
-    books_json = serializers.serialize('json', books)
-    print(books_json)
-    return HttpResponse(books_json)
-
 
 # BOOKWISH ROUTES
 def add_book_to_wish_list(request):
@@ -80,22 +70,21 @@ def add_book_to_wish_list(request):
     book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
     book_wish.save()
-    book_wish_json = serializers.serialize('json', [ book_wish ])
 
-    print(book_wish_json)
-
+    book_wish_json = _prep_response([ book_wish ])
     return HttpResponse(book_wish_json)
 
 def get_user_book_wishes(request, user_id):
     book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
     book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
     books = Book.objects.filter(id__in=book_ids)
-    print('books')
-    print(books)
-    print('book_wishes')
-    print(book_wishes)
-    book_wishes_json = serializers.serialize('json', book_wishes)
-    books_json = serializers.serialize('json', books)
+    # print('books')
+    # print(books)
+    # print('book_wishes')
+    # print(book_wishes)
+    # book_wishes_json = serializers.serialize('json', book_wishes)
+    # books_json = serializers.serialize('json', books)
+    books_json = _prep_response(books)
     print(books_json)
     return HttpResponse(books_json)
 

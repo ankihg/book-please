@@ -20,6 +20,8 @@ class WishListTestCase(TestCase):
 
         all_books = self.get_books()
         books_by_mystery_kitty = self.get_books_by('mystery kitty')
+        print('books_by_mystery_kitty')
+        print(books_by_mystery_kitty)
 
 
     def load_books(self):
