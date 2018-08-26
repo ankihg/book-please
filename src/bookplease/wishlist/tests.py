@@ -14,6 +14,8 @@ class WishListTestCase(TestCase):
     def run_test(self):
         tad_user_data = {'first_name': 'tad', 'last_name': 'the cat', 'email': 'tad@meow.cat', 'password': 'sal3m'}
         tad_user_creds = {'username': tad_user_data['email'], 'password': tad_user_data['password']}
+        hilda_user_data = {'first_name': 'hilda', 'last_name': 'garde', 'email': 'hilda@garde.woof', 'password': 'b4rk0n'}
+        hilda_user_creds = {'username': hilda_user_data['email'], 'password': hilda_user_data['password']}
 
         # register and login user tad
         self.register_user(tad_user_data)
@@ -21,6 +23,13 @@ class WishListTestCase(TestCase):
         self.assertEqual(user_tad['first_name'], tad_user_data['first_name'])
         self.assertEqual(user_tad['username'], tad_user_data['email'])
         self.assertEqual(user_tad['email'], tad_user_data['email'])
+
+        # register and login user hilda
+        reg_user_hilda = self.register_user(hilda_user_data)
+        user_hilda = self.login_user(hilda_user_creds)
+        self.assertEqual(user_hilda['first_name'], hilda_user_data['first_name'])
+        self.assertEqual(user_hilda['username'], hilda_user_data['email'])
+        self.assertEqual(user_hilda['email'], hilda_user_data['email'])
 
         # get books
         # all_books = self.get_books
@@ -34,15 +43,17 @@ class WishListTestCase(TestCase):
         self.assertEqual(book_to_wish_for['author'], 'mystery kitty')
         self.assertEqual(book_to_wish_for['title'], 'lost on lancaster')
 
+        # user tad adds book to wish list
         book_wish = self.add_book_to_wish_list(tad_user_creds, book_to_wish_for['id'])
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
 
+
     def load_books(self):
-        Book.objects.create(title="rush the fence", author="woof pack", isbn="888", date_published=timezone.now())
-        Book.objects.create(title="lost on lancaster", author="mystery kitty", isbn="999", date_published=timezone.now())
-        # Book.objects.create(title="play in motion", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
-        # Book.objects.create(title="of mice and men", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
+        Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
+        Book.objects.create(title="Lost on Lancaster", author="Mystery Kitty", isbn="999", date_published=timezone.now())
+        Book.objects.create(title="Play in Motion", author="Woof Pack", isbn="888", date_published=timezone.now())
+        Book.objects.create(title="Of Mice and Men", author="John Steinbeck", isbn="888", date_published=timezone.now())
 
     def register_user(self, user_data):
         """Register a user"""
@@ -53,7 +64,7 @@ class WishListTestCase(TestCase):
     def login_user(self, user_creds):
         """Login registered user"""
         c = Client()
-        response = c.post('/wishlist/users/login', {'username': 'tad@meow.cat', 'password': 'sal3m'}, content_type="application/json")
+        response = c.post('/wishlist/users/login', user_creds, content_type="application/json")
         return _parse_response(response)[0]
 
 
