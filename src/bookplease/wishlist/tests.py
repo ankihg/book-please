@@ -7,12 +7,14 @@ from .models import User, Book, BookWish
 class WishListTestCase(TestCase):
 
     def setUp(self):
-        tad_user_data = {'first_name': 'tad', 'last_name': 'the cat', 'email': 'tad@meow.cat', 'password': 'sal3m'}
-        tad_user_creds = {'username': tad_user_data['email'], 'password': tad_user_data['password']}
-
         # User.objects.create(first_name="tad", last_name="the cat", email="tad@meow.cat", password="sal3m", token="555")
         # User.objects.create(first_name="hilda", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
         self.load_books()
+
+    def run_test(self):
+        tad_user_data = {'first_name': 'tad', 'last_name': 'the cat', 'email': 'tad@meow.cat', 'password': 'sal3m'}
+        tad_user_creds = {'username': tad_user_data['email'], 'password': tad_user_data['password']}
+
         self.register_user(tad_user_data)
         user_tad = self.login_user(tad_user_creds)
         print('user_tad')
