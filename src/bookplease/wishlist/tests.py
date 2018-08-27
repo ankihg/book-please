@@ -64,8 +64,11 @@ class WishListTestCase(TestCase):
         print('first_book')
         print(first_book)
         book_wish = self.add_book_to_wish_list(hilda_user_creds, first_book['id'])
+        print('plz now')
+        print(book_wish)
         self.assertEqual(book_wish['user'], user_hilda['id'])
         self.assertEqual(book_wish['book'], first_book['id'])
+        self.assertIsNone(book_wish['date_granted'])
 
         # get user hilda book wishlist
         hilda_book_wishes = self.get_user_book_wish_list(user_hilda['id'])
@@ -80,7 +83,12 @@ class WishListTestCase(TestCase):
         self.assertEqual(len(tad_book_wishes), 1)
 
         # grant
-        self.grant_book_wish(user_hilda['id'], first_book['id'])
+        granted_book_wish = self.grant_book_wish(user_hilda['id'], first_book['id'])
+        print('granted_book_wish')
+        print(granted_book_wish)
+        self.assertEqual(granted_book_wish['user'], user_hilda['id'])
+        self.assertEqual(granted_book_wish['book'], first_book['id'])
+        self.assertIsNotNone(granted_book_wish['date_granted'])
 
 
     def load_books(self):
@@ -133,8 +141,7 @@ class WishListTestCase(TestCase):
         url = '/wishlist/users/{:d}/books/{:d}/grant'.format(user_id, book_id)
         print(url)
         response = c.put(url, content_type="application/json")
-        # return _parse_response(response)
-
+        return _parse_response(response)[0]
 
 
 # HELPER FNS
