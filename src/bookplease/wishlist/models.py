@@ -22,4 +22,4 @@ class BookWish(models.Model):
     date_granted = models.DateTimeField(null=True)
 
     class Meta:
-    unique_together = ('user', 'book')
+        unique_together = ('user', 'book')
