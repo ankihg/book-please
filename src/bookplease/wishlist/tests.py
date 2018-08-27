@@ -71,6 +71,14 @@ class WishListTestCase(TestCase):
         hilda_book_wishes = self.get_user_book_wish_list(user_hilda['id'])
         print('hilda_book_wishes')
         print(hilda_book_wishes)
+        self.assertEqual(len(hilda_book_wishes), 2)
+
+        # get user tad book wishlist
+        tad_book_wishes = self.get_user_book_wish_list(user_tad['id'])
+        print('tad_book_wishes')
+        print(tad_book_wishes)
+        self.assertEqual(len(tad_book_wishes), 1)
+
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
