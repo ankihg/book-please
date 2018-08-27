@@ -78,16 +78,18 @@ def get_user_book_wishes(request, user_id):
     book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
     book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
     books = Book.objects.filter(id__in=book_ids)
-    # print('books')
-    # print(books)
-    # print('book_wishes')
-    # print(book_wishes)
-    # book_wishes_json = serializers.serialize('json', book_wishes)
-    # books_json = serializers.serialize('json', books)
     books_json = _prep_response(books)
     print(books_json)
     return HttpResponse(books_json)
 
+def mark_book_wish_as_granted(request, user_id, book_id):
+    book_wish = BookWish.objects.get(user_id=user_id, book_id=book_id)
+    book_wish.date_granted = timezone.now()
+    book_wish.save()
+    book_wish_json = _prep_response([ book_wish ])
+    print('book_wish_json')
+    print(book_wish_json)
+    return HttpResponse(book_wish_json)
 
 
 # HELPER FNS

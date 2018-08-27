@@ -79,6 +79,9 @@ class WishListTestCase(TestCase):
         print(tad_book_wishes)
         self.assertEqual(len(tad_book_wishes), 1)
 
+        # grant
+        self.grant_book_wish(user_hilda['id'], first_book['id'])
+
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
@@ -124,10 +127,13 @@ class WishListTestCase(TestCase):
         print(url)
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
-        # s = response.content.decode("utf-8")
-        # response_json = json.loads(s)
-        # print('user bookWish model')
-        # print(response_json)
+
+    def grant_book_wish(self, user_id, book_id):
+        c = Client()
+        url = '/wishlist/users/{:d}/books/{:d}/grant'.format(user_id, book_id)
+        print(url)
+        response = c.put(url, content_type="application/json")
+        # return _parse_response(response)
 
 
 

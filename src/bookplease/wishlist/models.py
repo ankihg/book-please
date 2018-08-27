@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
-    isbn = models.CharField(max_length=17, unqiue=True)
+    isbn = models.CharField(max_length=17, unique=True)
     date_published = models.DateTimeField()
 
 class BookWish(models.Model):
