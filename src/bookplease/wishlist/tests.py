@@ -126,7 +126,7 @@ class WishListTestCase(TestCase):
     def add_book_to_wish_list(self, user_creds, book_id):
         """Add a book to user's wishlist"""
         c = Client()
-        response = c.post('/wishlist/bookWish', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
+        response = c.post('/wishlist/bookWishes', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
         return _parse_response(response)[0]
 
     def get_user_book_wish_list(self, user_id):

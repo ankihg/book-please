@@ -1,6 +1,6 @@
 
 # Schema
-## user
+## User
 imported from `django.contrib.auth`
 ```
 id
@@ -10,7 +10,7 @@ email [type string][not null]
 password [type string][not null]
 ```
 
-## book
+## Book
 ```
 id
 title [type string][not null]
@@ -19,7 +19,7 @@ isbn [type string][not null]
 date_of_publication [type date][not null]
 ```
 
-## bookWish
+## BookWish
 ```
 id
 user_id [type id][fkey user.id][not null]
@@ -49,6 +49,7 @@ POST /wishlist/users/register
   'password': 'sal3m'
 }
 ```
+
 ### Login
 ```
 POST /wishlist/users/login
@@ -56,4 +57,36 @@ POST /wishlist/users/login
   'username': 'tad@meow.cat',
   'password': 'sal3m'
 }
+```
+
+## Books
+
+### Get many
+- The returned books are ordered with the latest first
+- Route supports an optional `author` query parameter
+```
+GET /wishlist/books?author="Mystery Kitty"
+```
+
+## BookWishes
+### Post
+- Authenticated
+- Add a book to your wish list
+- Only you can add books to your wish list
+```
+POST /wishlist/bookWishes
+{
+  'credentials': {
+    'username': 'tad@meow.cat',
+    'password': 'sal3m'
+  },
+  'book_id': book_id
+}
+```
+
+### Get for user
+- Get a user's book wish list
+- Anyone can see a user's book wish list
+```
+GET /wishlist/users/${user.id}/bookWishes
 ```
