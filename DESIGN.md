@@ -88,5 +88,13 @@ POST /wishlist/bookWishes
 - Get a user's book wish list
 - Anyone can see a user's book wish list
 ```
-GET /wishlist/users/${user.id}/bookWishes
+GET /wishlist/users/<user_id>/bookWishes
+```
+
+### Mark as granted
+- Authenticated
+- Mark a book as granted on your wish list
+- Only you can mark books as granted on your wish list
+```
+PUT /wishlist/bookWishes/books/<book_id>/grant
 ```
