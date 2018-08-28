@@ -30,13 +30,30 @@ date_granted [type date]
 
 # Technologies
 - Web framework - [Django](https://www.djangoproject.com/)
+
 - Database - [sqlite](https://docs.python.org/2/library/sqlite3.html)
 - SQL query builder - [PyPika](https://github.com/kayak/pypika)
 
-# Questions
-- May I extend the attributes of user and book?
-- Would you like token authentication?
-
 
 # Routes
-- `get_user_book_wishes` is unauthenticated. Anyone can see a users bok wish list
+- `get_user_book_wishes` is unauthenticated. Anyone can see a users book wish list
+
+## Users
+### Register
+```
+POST /wishlist/users/register
+{
+  'first_name': 'tad',
+  'last_name': 'the cat',
+  'email': 'tad@meow.cat',
+  'password': 'sal3m'
+}
+```
+### Login
+```
+POST /wishlist/users/login
+{
+  'username': 'tad@meow.cat',
+  'password': 'sal3m'
+}
+```
