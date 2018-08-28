@@ -91,11 +91,21 @@ class WishListTestCase(TestCase):
         hilda_ungranted_wish_list = self.get_user_book_ungranted_wish_list(user_hilda['id'])
         self.assertEqual(len(hilda_ungranted_wish_list), 1)
         self.assertEqual(hilda_ungranted_wish_list[0]['title'], 'Lost on Lancaster')
+        hildas_ungranted_book_wish = hilda_ungranted_wish_list[0]
 
         # get user hilda's granted bookWishes
         hilda_granted_wish_list = self.get_user_book_granted_wish_list(user_hilda['id'])
         self.assertEqual(len(hilda_granted_wish_list), 1)
         self.assertEqual(hilda_granted_wish_list[0]['author'], 'Woof Pack')
+
+        # cancel user hilda's ungranted bookWish
+        canceled_book_wish = self.cancel_book_wish(hilda_user_creds, hildas_ungranted_book_wish['id'])
+        print('canceled_book_wish')
+        print(canceled_book_wish)
+        # self.assertEqual(len(hilda_ungranted_wish_list), 1)
+        # self.assertEqual(hilda_ungranted_wish_list[0]['title'], 'Lost on Lancaster')
+
+        # TODO assert book is deleted
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
@@ -161,6 +171,12 @@ class WishListTestCase(TestCase):
         c = Client()
         url = '/wishlist/bookWishes/books/{:d}/grant'.format(book_id)
         response = c.put(url, {'credentials': user_creds}, content_type="application/json")
+        return _parse_response(response)[0]
+
+    def cancel_book_wish(self, user_creds, book_id):
+        c = Client()
+        url = '/wishlist/bookWishes/books/{:d}'.format(book_id)
+        response = c.delete(url, {'credentials': user_creds}, content_type="application/json")
         return _parse_response(response)[0]
 
 

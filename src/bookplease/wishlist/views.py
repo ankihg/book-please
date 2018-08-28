@@ -111,6 +111,16 @@ def mark_book_wish_as_granted(request, book_id):
     book_wish_json = _prep_response([ book_wish ])
     return HttpResponse(book_wish_json)
 
+def cancel_book_wish(request, book_id):
+    print('welcome cancel_book_wish')
+    body = _parse_body(request)
+    user = _authenticate(request, body)
+    # TODO : unauthenticated error response
+    book_wish = BookWish.objects.get(user_id=user.id, book_id=book_id)
+    book_wish.delete()
+    book_wish_json = _prep_response([ book_wish ])
+    return HttpResponse(book_wish_json)
+
 
 # HELPER FNS
 def _parse_body(request):
