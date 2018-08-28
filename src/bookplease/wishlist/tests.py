@@ -32,7 +32,7 @@ class WishListTestCase(TestCase):
         self.assertEqual(user_hilda['email'], hilda_user_data['email'])
 
         # browse latest books by Mystery Kitty
-        books_by_mystery_kitty = self.get_books_by('Mystery Kitty')
+        books_by_mystery_kitty = self.get_books_by_author('Mystery Kitty')
         self.assertEqual(len(books_by_mystery_kitty), 1)
 
         # select a book by Mystery Kitty
@@ -45,6 +45,11 @@ class WishListTestCase(TestCase):
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
 
+        # get book by id
+        books = self.get_book_by_id(book_wish['book'])
+        self.assertEqual(len(books), 1)
+        self.assertEqual(books[0]['author'], 'Mystery Kitty')
+
         # get all books
         all_books = self.get_books()
         self.assertEqual(len(all_books), 4)
@@ -56,7 +61,7 @@ class WishListTestCase(TestCase):
         self.assertEqual(book_wish['book'], latest_book['id'])
 
         # browse books by Woof Pack
-        books_by_woof_pack = self.get_books_by('Woof Pack')
+        books_by_woof_pack = self.get_books_by_author('Woof Pack')
         self.assertEqual(len(books_by_woof_pack), 2)
 
         # user hilda adds oldest book to wish list
@@ -116,9 +121,15 @@ class WishListTestCase(TestCase):
         response = c.get('/wishlist/books', content_type="application/json")
         return _parse_response(response)
 
-    def get_books_by(self, author):
+    def get_books_by_author(self, author):
         c = Client()
         url = '/wishlist/books?author={:s}'.format(author)
+        response = c.get(url, content_type="application/json")
+        return _parse_response(response)
+
+    def get_book_by_id(self, id):
+        c = Client()
+        url = '/wishlist/books?id={:d}'.format(id)
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 

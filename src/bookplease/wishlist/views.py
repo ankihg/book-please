@@ -49,12 +49,16 @@ def login_user(request):
 def get_books(request):
     print('get_books now')
     author = request.GET.get('author', '')
+    id = request.GET.get('id', '')
     print(author)
     print(type(author))
-    if (author == ''):
-        books = Book.objects.order_by('-date_published')
-    else:
+
+    if id:
+        books = Book.objects.filter(id=id)
+    elif author:
         books = Book.objects.filter(author=author).order_by('-date_published')
+    else:
+        books = Book.objects.order_by('-date_published')
 
     # books_json = serializers.serialize('json', books)
     # print(books_json)
