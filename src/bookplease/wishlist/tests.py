@@ -100,12 +100,12 @@ class WishListTestCase(TestCase):
 
         # cancel user hilda's ungranted bookWish
         canceled_book_wish = self.cancel_book_wish(hilda_user_creds, hildas_ungranted_book_wish['id'])
-        print('canceled_book_wish')
-        print(canceled_book_wish)
-        # self.assertEqual(len(hilda_ungranted_wish_list), 1)
-        # self.assertEqual(hilda_ungranted_wish_list[0]['title'], 'Lost on Lancaster')
+        self.assertEqual(canceled_book_wish['user'], user_hilda['id'])
+        self.assertEqual(canceled_book_wish['book'], hildas_ungranted_book_wish['id'])
 
-        # TODO assert book is deleted
+        # assert book is deleted
+        hilda_ungranted_wish_list = self.get_user_book_ungranted_wish_list(user_hilda['id'])
+        self.assertEqual(len(hilda_ungranted_wish_list), 0)
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
