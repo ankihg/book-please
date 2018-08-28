@@ -82,7 +82,7 @@ class WishListTestCase(TestCase):
         print(tad_book_wishes)
         self.assertEqual(len(tad_book_wishes), 1)
 
-        # grant
+        # grant user hilda's bookWish for Woof Pack's first book
         granted_book_wish = self.grant_book_wish(hilda_user_creds, first_book['id'])
         print('granted_book_wish')
         print(granted_book_wish)
@@ -90,12 +90,14 @@ class WishListTestCase(TestCase):
         self.assertEqual(granted_book_wish['book'], first_book['id'])
         self.assertIsNotNone(granted_book_wish['date_granted'])
 
+        # get user hilda's ungranted bookWishes
         hilda_ungranted_wish_list = self.get_user_book_ungranted_wish_list(user_hilda['id'])
         print('hilda_ungranted_wish_list')
         print(hilda_ungranted_wish_list)
         self.assertEqual(len(hilda_ungranted_wish_list), 1)
         self.assertEqual(hilda_ungranted_wish_list[0]['title'], 'Lost on Lancaster')
 
+        # get user hilda's granted bookWishes
         hilda_granted_wish_list = self.get_user_book_granted_wish_list(user_hilda['id'])
         print('hilda_granted_wish_list')
         print(hilda_granted_wish_list)
