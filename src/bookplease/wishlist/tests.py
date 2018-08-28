@@ -83,7 +83,7 @@ class WishListTestCase(TestCase):
         self.assertEqual(len(tad_book_wishes), 1)
 
         # grant
-        granted_book_wish = self.grant_book_wish(user_hilda['id'], first_book['id'])
+        granted_book_wish = self.grant_book_wish(hilda_user_creds, first_book['id'])
         print('granted_book_wish')
         print(granted_book_wish)
         self.assertEqual(granted_book_wish['user'], user_hilda['id'])
@@ -117,7 +117,7 @@ class WishListTestCase(TestCase):
 
     def get_books_by(self, author):
         c = Client()
-        url = '/wishlist/books/?author={:s}'.format(author)
+        url = '/wishlist/books?author={:s}'.format(author)
         print('url')
         print(url)
         response = c.get(url, content_type="application/json")
@@ -136,11 +136,12 @@ class WishListTestCase(TestCase):
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
-    def grant_book_wish(self, user_id, book_id):
+    def grant_book_wish(self, user_creds, book_id):
         c = Client()
-        url = '/wishlist/users/{:d}/books/{:d}/grant'.format(user_id, book_id)
+        url = '/wishlist/bookWishes/books/{:d}/grant'.format(book_id)
+        print('grant_book_wish url')
         print(url)
-        response = c.put(url, content_type="application/json")
+        response = c.put(url, {'credentials': user_creds}, content_type="application/json")
         return _parse_response(response)[0]
 
 

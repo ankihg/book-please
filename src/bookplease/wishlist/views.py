@@ -82,13 +82,13 @@ def get_user_book_wishes(request, user_id):
     print(books_json)
     return HttpResponse(books_json)
 
-def mark_book_wish_as_granted(request, user_id, book_id):
-    book_wish = BookWish.objects.get(user_id=user_id, book_id=book_id)
+def mark_book_wish_as_granted(request, book_id):
+    body = _parse_body(request)
+    user = _authenticate(request, body)
+    book_wish = BookWish.objects.get(user_id=user.id, book_id=book_id)
     book_wish.date_granted = timezone.now()
     book_wish.save()
     book_wish_json = _prep_response([ book_wish ])
-    print('book_wish_json')
-    print(book_wish_json)
     return HttpResponse(book_wish_json)
 
 
