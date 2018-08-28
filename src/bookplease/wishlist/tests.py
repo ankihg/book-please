@@ -118,8 +118,6 @@ class WishListTestCase(TestCase):
     def get_books_by(self, author):
         c = Client()
         url = '/wishlist/books?author={:s}'.format(author)
-        print('url')
-        print(url)
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
@@ -132,15 +130,12 @@ class WishListTestCase(TestCase):
     def get_user_book_wish_list(self, user_id):
         c = Client()
         url = '/wishlist/users/{:d}/bookWishes'.format(user_id)
-        print(url)
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
     def grant_book_wish(self, user_creds, book_id):
         c = Client()
         url = '/wishlist/bookWishes/books/{:d}/grant'.format(book_id)
-        print('grant_book_wish url')
-        print(url)
         response = c.put(url, {'credentials': user_creds}, content_type="application/json")
         return _parse_response(response)[0]
 
