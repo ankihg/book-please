@@ -75,7 +75,23 @@ def add_book_to_wish_list(request):
     return HttpResponse(book_wish_json)
 
 def get_user_book_wishes(request, user_id):
-    book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
+    granted = request.GET.get('granted', '')
+    print('granted')
+    print(granted)
+    print(type(granted))
+    if granted == 'true' or granted == 'True':
+        granted = True
+    elif granted == 'false' or granted == 'False':
+        granted = False
+    else:
+        granted = None
+
+
+    if granted is None:
+        book_wishes = BookWish.objects.filter(user_id=user_id).order_by('-date_wished')
+    else:
+        book_wishes = BookWish.objects.filter(user_id=user_id, date_granted__isnull=not granted).order_by('-date_wished')
+
     book_ids = list(map(lambda book_wish: book_wish.book_id, book_wishes))
     books = Book.objects.filter(id__in=book_ids)
     books_json = _prep_response(books)

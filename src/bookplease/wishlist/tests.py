@@ -90,12 +90,23 @@ class WishListTestCase(TestCase):
         self.assertEqual(granted_book_wish['book'], first_book['id'])
         self.assertIsNotNone(granted_book_wish['date_granted'])
 
+        hilda_ungranted_wish_list = self.get_user_book_ungranted_wish_list(user_hilda['id'])
+        print('hilda_ungranted_wish_list')
+        print(hilda_ungranted_wish_list)
+        self.assertEqual(len(hilda_ungranted_wish_list), 1)
+        self.assertEqual(hilda_ungranted_wish_list[0]['title'], 'Lost on Lancaster')
+
+        hilda_granted_wish_list = self.get_user_book_granted_wish_list(user_hilda['id'])
+        print('hilda_granted_wish_list')
+        print(hilda_granted_wish_list)
+        self.assertEqual(len(hilda_granted_wish_list), 1)
+        self.assertEqual(hilda_granted_wish_list[0]['author'], 'Woof Pack')
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
-        Book.objects.create(title="Lost on Lancaster", author="Mystery Kitty", isbn="999", date_published=timezone.now())
         Book.objects.create(title="Play in Motion", author="Woof Pack", isbn="555", date_published=timezone.now())
         Book.objects.create(title="Of Mice and Men", author="John Steinbeck", isbn="777", date_published=timezone.now())
+        Book.objects.create(title="Lost on Lancaster", author="Mystery Kitty", isbn="999", date_published=timezone.now())
 
     def register_user(self, user_data):
         """Register a user"""
@@ -130,6 +141,18 @@ class WishListTestCase(TestCase):
     def get_user_book_wish_list(self, user_id):
         c = Client()
         url = '/wishlist/users/{:d}/bookWishes'.format(user_id)
+        response = c.get(url, content_type="application/json")
+        return _parse_response(response)
+
+    def get_user_book_ungranted_wish_list(self, user_id):
+        c = Client()
+        url = '/wishlist/users/{:d}/bookWishes?granted=false'.format(user_id)
+        response = c.get(url, content_type="application/json")
+        return _parse_response(response)
+
+    def get_user_book_granted_wish_list(self, user_id):
+        c = Client()
+        url = '/wishlist/users/{:d}/bookWishes?granted=true'.format(user_id)
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
