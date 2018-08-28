@@ -1,31 +1,31 @@
 
 # Schema
 ## user
+imported from `django.contrib.auth`
 ```
 id
-first_name
-last_name
-email
-password
-token
+first_name [type string]
+last_name [type string]
+email [type string][not null]
+password [type string][not null]
 ```
 
 ## book
 ```
 id
-title
-author
-isbn
-date_of_publication
+title [type string][not null]
+author [type string][not null]
+isbn [type string][not null]
+date_of_publication [type date][not null]
 ```
 
-## wish
+## bookWish
 ```
 id
-userId [user.id][not null]
-bookId [book.id][not null]
-dateAdded [not null]
-dateWishGranted
+user_id [type id][fkey user.id][not null]
+book_id [type id][fkey book.id][not null]
+date_wished [type date][not null]
+date_granted [type date]
 ```
 
 # Technologies
@@ -36,3 +36,7 @@ dateWishGranted
 # Questions
 - May I extend the attributes of user and book?
 - Would you like token authentication?
+
+
+# Routes
+- `get_user_book_wishes` is unauthenticated. Anyone can see a users bok wish list
