@@ -103,9 +103,16 @@ class WishListTestCase(TestCase):
         self.assertEqual(canceled_book_wish['user'], user_hilda['id'])
         self.assertEqual(canceled_book_wish['book'], hildas_ungranted_book_wish['id'])
 
-        # assert book is deleted
+        # assert bookWish is deleted
         hilda_ungranted_wish_list = self.get_user_book_ungranted_wish_list(user_hilda['id'])
         self.assertEqual(len(hilda_ungranted_wish_list), 0)
+
+        # FAILURE TESTS
+        # make an authenticated request with invalid user creds
+        invalid_user_creds = {'username': 'happy@cat.plz', 'password': 'p1z'}
+        invalid_user_creds_error = self.add_book_to_wish_list(invalid_user_creds, book_to_wish_for['id'])
+        self.assertEqual(invalid_user_creds_error['message'], 'Invalid user credentials')
+
 
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
@@ -147,6 +154,12 @@ class WishListTestCase(TestCase):
         """Add a book to user's wishlist"""
         c = Client()
         response = c.post('/wishlist/bookWishes', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
+        print('auth response')
+        print(response)
+        print(type(response))
+        print(response.status_code)
+        if (response.status_code != 200):
+            return _parse_response(response)
         return _parse_response(response)[0]
 
     def get_user_book_wish_list(self, user_id):

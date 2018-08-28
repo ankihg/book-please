@@ -69,7 +69,9 @@ def get_books(request):
 def add_book_to_wish_list(request):
     body = _parse_body(request)
     user = _authenticate(request, body)
-    print(user.id)
+    if (user is None):
+        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
+
 
     book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
