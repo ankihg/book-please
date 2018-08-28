@@ -1,7 +1,7 @@
 
 # Schema
 ## User
-imported from `django.contrib.auth`
+Imported from `django.contrib.auth`
 ```
 id
 first_name [type string]
@@ -30,10 +30,7 @@ date_granted [type date]
 
 # Technologies
 - Web framework - [Django](https://www.djangoproject.com/)
-
-- Database - [sqlite](https://docs.python.org/2/library/sqlite3.html)
-- SQL query builder - [PyPika](https://github.com/kayak/pypika)
-
+I decided to use Django because it is widely used and I'd been interested in trying it out. In the end, I found Django a little heavy for the application but appreciated its power and ease of use.
 
 # Routes
 - `get_user_book_wishes` is unauthenticated. Anyone can see a users book wish list
