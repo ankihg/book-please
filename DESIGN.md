@@ -63,7 +63,7 @@ POST /wishlist/users/login
 
 ### Get many
 - The returned books are ordered with the latest first
-- Route supports an optional `author` query parameter
+- Route supports an optional `author` or `id` query parameter
 ```
 GET /wishlist/books?author="Mystery Kitty"
 ```
