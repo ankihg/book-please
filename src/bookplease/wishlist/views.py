@@ -37,12 +37,12 @@ def login_user(request):
     username = body['username']
     password = body['password']
     user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        print(request)
-        # user_json = serializers.serialize('json', [ user ])
-        user_json = _prep_response([ user ])
-        return HttpResponse(user_json)
+    if (user is None):
+        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
+
+    login(request, user)
+    user_json = _prep_response([ user ])
+    return HttpResponse(user_json)
 
 
 # BOOK ROUTES
@@ -71,7 +71,6 @@ def add_book_to_wish_list(request):
     user = _authenticate(request, body)
     if (user is None):
         return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
-
 
     book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
@@ -107,6 +106,9 @@ def get_user_book_wishes(request, user_id):
 def mark_book_wish_as_granted(request, book_id):
     body = _parse_body(request)
     user = _authenticate(request, body)
+    if (user is None):
+        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
+
     book_wish = BookWish.objects.get(user_id=user.id, book_id=book_id)
     book_wish.date_granted = timezone.now()
     book_wish.save()
@@ -117,7 +119,9 @@ def cancel_book_wish(request, book_id):
     print('welcome cancel_book_wish')
     body = _parse_body(request)
     user = _authenticate(request, body)
-    # TODO : unauthenticated error response
+    if (user is None):
+        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
+
     book_wish = BookWish.objects.get(user_id=user.id, book_id=book_id)
     book_wish.delete()
     book_wish_json = _prep_response([ book_wish ])
