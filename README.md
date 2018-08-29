@@ -102,5 +102,14 @@ PUT /wishlist/auth/bookWishes/books/<book_id>/grant
 - Remove a book from your wish list
 - Only you can remove books from your wish list
 ```
-PUT /wishlist/auth/bookWishes/books/<book_id>/grant
+DELETE /wishlist/auth/bookWishes/books/<book_id>/grant
 ```
+
+# Important files
+- [Models](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/models.py)
+
+- [Routes](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/urls.py)
+
+- [Route handlers](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/views.py)
+
+- [Tests](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/tests.py)
