@@ -120,6 +120,7 @@ class WishListTestCase(TestCase):
         Book.objects.create(title="Of Mice and Men", author="John Steinbeck", isbn="777", date_published=timezone.now())
         Book.objects.create(title="Lost on Lancaster", author="Mystery Kitty", isbn="999", date_published=timezone.now())
 
+    # USER ROUTES
     def register_user(self, user_data):
         """Register a user"""
         c = Client()
@@ -132,7 +133,7 @@ class WishListTestCase(TestCase):
         response = c.post('/wishlist/users/login', user_creds, content_type="application/json")
         return _parse_response(response)[0]
 
-
+    # BOOK ROUTES
     def get_books(self):
         c = Client()
         response = c.get('/wishlist/books', content_type="application/json")
@@ -150,6 +151,7 @@ class WishListTestCase(TestCase):
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
+    # BOOKWISH ROUTES
     def add_book_to_wish_list(self, user_creds, book_id):
         """Add a book to user's wishlist"""
         c = Client()
