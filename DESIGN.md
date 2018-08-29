@@ -66,12 +66,20 @@ GET /wishlist/books?author="Mystery Kitty"
 ```
 
 ## BookWishes
+### Get for user
+- Get a user's book wish list
+- Anyone can see a user's book wish list
+- Route supports an optional `granted` query parameter to specify whether or not the wish has been granted
+```
+GET /wishlist/users/<user_id>/bookWishes?granted=False
+```
+
 ### Post
 - Authenticated
 - Add a book to your wish list
 - Only you can add books to your wish list
 ```
-POST /wishlist/bookWishes
+POST /wishlist/auth/bookWishes
 {
   'credentials': {
     'username': 'tad@meow.cat',
@@ -81,17 +89,18 @@ POST /wishlist/bookWishes
 }
 ```
 
-### Get for user
-- Get a user's book wish list
-- Anyone can see a user's book wish list
-```
-GET /wishlist/users/<user_id>/bookWishes
-```
-
 ### Mark as granted
 - Authenticated
 - Mark a book as granted on your wish list
 - Only you can mark books as granted on your wish list
 ```
-PUT /wishlist/bookWishes/books/<book_id>/grant
+PUT /wishlist/auth/bookWishes/books/<book_id>/grant
+```
+
+### Delete
+- Authenticated
+- Remove a book from your wish list
+- Only you can remove books from your wish list
+```
+PUT /wishlist/auth/bookWishes/books/<book_id>/grant
 ```
