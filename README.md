@@ -105,6 +105,19 @@ PUT /wishlist/auth/bookWishes/books/<book_id>/grant
 DELETE /wishlist/auth/bookWishes/books/<book_id>/grant
 ```
 
+# Commands
+
+`cd src/bookplease`
+
+- Build database : `python manage.py migrate`
+
+- Build database changes : `python manage.py makemigrations`
+
+- Run tests : `./manage.py test wishlist.tests.WishListTestCase.run_test`
+
+- Start Server : `python manage.py runserver`
+
+
 # Important files
 - Models -  [src/bookplease/wishlist/models.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/models.py)
 
