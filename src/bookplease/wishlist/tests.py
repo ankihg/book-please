@@ -45,6 +45,11 @@ class WishListTestCase(TestCase):
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
 
+        # user tad adds same book to wish list, returns the wish without error
+        book_wish = self.add_book_to_wish_list(tad_user_creds, book_to_wish_for['id'])
+        self.assertEqual(book_wish['user'], user_tad['id'])
+        self.assertEqual(book_wish['book'], book_to_wish_for['id'])
+
         # get book by id
         books = self.get_book_by_id(book_wish['book'])
         self.assertEqual(len(books), 1)

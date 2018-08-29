@@ -72,6 +72,11 @@ def add_book_to_wish_list(request):
     if (user is None):
         return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
 
+    book_wishes = BookWish.objects.filter(user_id=user.id, book_id=body['book_id'])
+    if (len(book_wishes) > 0):
+        book_wish_json = _prep_response(book_wishes)
+        return HttpResponse(book_wish_json)
+
     book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
     print(book_wish)
     book_wish.save()
