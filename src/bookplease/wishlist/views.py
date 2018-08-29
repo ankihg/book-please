@@ -1,17 +1,11 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils import timezone
-
 from django.core import serializers
-
 from django.core.serializers.json import DjangoJSONEncoder
-
-import json
-
 from .models import User, Book, BookWish
 from django.contrib.auth import authenticate, login
+import json
 
 # USER ROUTES
 def register_user(request):

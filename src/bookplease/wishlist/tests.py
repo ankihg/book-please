@@ -1,8 +1,8 @@
-import json
 from django.test import TestCase
 from django.test import Client
 from django.utils import timezone
 from .models import User, Book, BookWish
+import json
 
 class WishListTestCase(TestCase):
 
