@@ -80,8 +80,6 @@ class WishListTestCase(TestCase):
 
         # get user tad book wishlist
         tad_book_wishes = self.get_user_book_wish_list(user_tad['id'])
-        print('tad_book_wishes')
-        print(tad_book_wishes)
         self.assertEqual(len(tad_book_wishes), 1)
 
         # grant user hilda's bookWish for Woof Pack's first book
