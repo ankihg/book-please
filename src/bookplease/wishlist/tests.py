@@ -118,7 +118,6 @@ class WishListTestCase(TestCase):
         invalid_user_creds_error = self.add_book_to_wish_list(invalid_user_creds, book_to_wish_for['id'])
         self.assertEqual(invalid_user_creds_error['message'], 'Invalid user credentials')
 
-
     def load_books(self):
         Book.objects.create(title="Rush the Fence", author="Woof Pack", isbn="888", date_published=timezone.now())
         Book.objects.create(title="Play in Motion", author="Woof Pack", isbn="555", date_published=timezone.now())

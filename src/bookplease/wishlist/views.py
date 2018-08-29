@@ -13,12 +13,6 @@ import json
 from .models import User, Book, BookWish
 from django.contrib.auth import authenticate, login
 
-
-def index(request):
-    latest_book_list = Book.objects.order_by('-date_published')[:5]
-    output = ', '.join([b.title for b in latest_book_list])
-    return HttpResponse(output)
-
 # USER ROUTES
 def register_user(request):
     body = _parse_body(request)
