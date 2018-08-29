@@ -108,8 +108,8 @@ DELETE /wishlist/auth/bookWishes/books/<book_id>/grant
 # Important files
 - Models -  [src/bookplease/wishlist/models.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/models.py)
 
-- [Routes](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/urls.py)
+- Routes - [src/bookplease/wishlist/urls.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/urls.py)
 
-- [Route handlers](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/views.py)
+- Route handlers - [src/bookplease/wishlist/views.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/views.py)
 
-- [Tests](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/tests.py)
+- Tests -  [src/bookplease/wishlist/tests.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/tests.py)
