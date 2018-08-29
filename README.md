@@ -33,7 +33,6 @@ date_granted [type date]
 I decided to use Django because it is widely used and I'd been interested in trying it. I found Django a little heavy for the application but appreciated its power and ease of use.
 
 # Routes
-- `get_user_book_wishes` is unauthenticated. Anyone can see a users book wish list
 
 ## Users
 ### Register
