@@ -152,18 +152,6 @@ class WishListTestCase(TestCase):
         return _parse_response(response)
 
     # BOOKWISH ROUTES
-    def add_book_to_wish_list(self, user_creds, book_id):
-        """Add a book to user's wishlist"""
-        c = Client()
-        response = c.post('/wishlist/bookWishes', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
-        print('auth response')
-        print(response)
-        print(type(response))
-        print(response.status_code)
-        if (response.status_code != 200):
-            return _parse_response(response)
-        return _parse_response(response)[0]
-
     def get_user_book_wish_list(self, user_id):
         c = Client()
         url = '/wishlist/users/{:d}/bookWishes'.format(user_id)
@@ -182,15 +170,27 @@ class WishListTestCase(TestCase):
         response = c.get(url, content_type="application/json")
         return _parse_response(response)
 
+    def add_book_to_wish_list(self, user_creds, book_id):
+        """Add a book to user's wishlist"""
+        c = Client()
+        response = c.post('/wishlist/auth/bookWishes', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
+        print('auth response')
+        print(response)
+        print(type(response))
+        print(response.status_code)
+        if (response.status_code != 200):
+            return _parse_response(response)
+        return _parse_response(response)[0]
+
     def grant_book_wish(self, user_creds, book_id):
         c = Client()
-        url = '/wishlist/bookWishes/books/{:d}/grant'.format(book_id)
+        url = '/wishlist/auth/bookWishes/books/{:d}/grant'.format(book_id)
         response = c.put(url, {'credentials': user_creds}, content_type="application/json")
         return _parse_response(response)[0]
 
     def cancel_book_wish(self, user_creds, book_id):
         c = Client()
-        url = '/wishlist/bookWishes/books/{:d}'.format(book_id)
+        url = '/wishlist/auth/bookWishes/books/{:d}'.format(book_id)
         response = c.delete(url, {'credentials': user_creds}, content_type="application/json")
         return _parse_response(response)[0]
 
