@@ -115,7 +115,7 @@ DELETE /wishlist/auth/bookWishes/books/<book_id>/grant
 
 - Run tests : `./manage.py test wishlist.tests.WishListTestCase.run_test`
 
-- Start Server : `python manage.py runserver`
+- Start server : `python manage.py runserver`
 
 
 # Important files
