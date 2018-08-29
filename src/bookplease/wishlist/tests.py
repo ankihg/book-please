@@ -45,7 +45,7 @@ class WishListTestCase(TestCase):
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
 
-        # user tad adds same book to wish list, returns the wish without error
+        # user tad adds same book to wish list, returns the same wish without error
         book_wish = self.add_book_to_wish_list(tad_user_creds, book_to_wish_for['id'])
         self.assertEqual(book_wish['user'], user_tad['id'])
         self.assertEqual(book_wish['book'], book_to_wish_for['id'])
@@ -113,6 +113,10 @@ class WishListTestCase(TestCase):
         self.assertEqual(len(hilda_ungranted_wish_list), 0)
 
         # FAILURE TESTS
+        # register and login user tad
+        duplicate_user_error = self.register_user(tad_user_data)
+        self.assertEqual(duplicate_user_error['message'], 'User already exists with email {:s}'.format(tad_user_data['email']))
+
         # make an authenticated request with invalid user creds
         invalid_user_creds = {'username': 'happy@cat.plz', 'password': 'p1z'}
         invalid_user_creds_error = self.add_book_to_wish_list(invalid_user_creds, book_to_wish_for['id'])
@@ -130,6 +134,8 @@ class WishListTestCase(TestCase):
         """Register a user"""
         c = Client()
         response = c.post('/wishlist/users/register', user_data, content_type="application/json")
+        if (response.status_code != 200):
+            return _parse_response(response)
         return _parse_response(response)[0]
 
     def login_user(self, user_creds):
@@ -179,10 +185,6 @@ class WishListTestCase(TestCase):
         """Add a book to user's wishlist"""
         c = Client()
         response = c.post('/wishlist/auth/bookWishes', {'credentials': user_creds, 'book_id': book_id}, content_type="application/json")
-        print('auth response')
-        print(response)
-        print(type(response))
-        print(response.status_code)
         if (response.status_code != 200):
             return _parse_response(response)
         return _parse_response(response)[0]

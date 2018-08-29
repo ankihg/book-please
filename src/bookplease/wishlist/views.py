@@ -21,8 +21,13 @@ def index(request):
 
 # USER ROUTES
 def register_user(request):
-    print('welcome register_user')
     body = _parse_body(request)
+
+    duplicate_users = User.objects.filter(username=body['email'])
+    if (len(duplicate_users) > 0):
+        return HttpResponse(json.dumps({'message': 'User already exists with email {:s}'.format(body['email'])}), status=409)
+
+
     user = User.objects.create_user(body['email'], body['email'], body['password'])
     user.first_name = body['first_name']
     user.last_name = body['last_name']
@@ -66,24 +71,6 @@ def get_books(request):
     return HttpResponse(books_json)
 
 # BOOKWISH ROUTES
-def add_book_to_wish_list(request):
-    body = _parse_body(request)
-    user = _authenticate(request, body)
-    if (user is None):
-        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
-
-    book_wishes = BookWish.objects.filter(user_id=user.id, book_id=body['book_id'])
-    if (len(book_wishes) > 0):
-        book_wish_json = _prep_response(book_wishes)
-        return HttpResponse(book_wish_json)
-
-    book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
-    print(book_wish)
-    book_wish.save()
-
-    book_wish_json = _prep_response([ book_wish ])
-    return HttpResponse(book_wish_json)
-
 def get_user_book_wishes(request, user_id):
     granted = request.GET.get('granted', '')
     print('granted')
@@ -107,6 +94,24 @@ def get_user_book_wishes(request, user_id):
     books_json = _prep_response(books)
     print(books_json)
     return HttpResponse(books_json)
+
+def add_book_to_wish_list(request):
+    body = _parse_body(request)
+    user = _authenticate(request, body)
+    if (user is None):
+        return HttpResponse(json.dumps({'message': 'Invalid user credentials'}), status=403)
+
+    duplicate_book_wishes = BookWish.objects.filter(user_id=user.id, book_id=body['book_id'])
+    if (len(duplicate_book_wishes) > 0):
+        book_wish_json = _prep_response(duplicate_book_wishes)
+        return HttpResponse(book_wish_json)
+
+    book_wish = BookWish(user_id=user.id, book_id=body['book_id'], date_wished=timezone.now())
+    print(book_wish)
+    book_wish.save()
+
+    book_wish_json = _prep_response([ book_wish ])
+    return HttpResponse(book_wish_json)
 
 def mark_book_wish_as_granted(request, book_id):
     body = _parse_body(request)
