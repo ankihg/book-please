@@ -30,7 +30,7 @@ date_granted [type date]
 
 # Technologies
 - Web framework - [Django](https://www.djangoproject.com/)
-I decided to use Django because it is widely used and I'd been interested in trying it out. In the end, I found Django a little heavy for the application but appreciated its power and ease of use.
+I decided to use Django because it is widely used and I'd been interested in trying it. In the end, I found Django a little heavy for the application but appreciated its power and ease of use.
 
 # Routes
 - `get_user_book_wishes` is unauthenticated. Anyone can see a users book wish list
