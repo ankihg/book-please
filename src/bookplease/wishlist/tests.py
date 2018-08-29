@@ -7,8 +7,6 @@ from .models import User, Book, BookWish
 class WishListTestCase(TestCase):
 
     def setUp(self):
-        # User.objects.create(first_name="tad", last_name="the cat", email="tad@meow.cat", password="sal3m", token="555")
-        # User.objects.create(first_name="hilda", last_name="garde", email="hilda@garde.woof", password="b4RK11", token="666")
         self.load_books()
 
     def run_test(self):
