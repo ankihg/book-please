@@ -106,7 +106,7 @@ DELETE /wishlist/auth/bookWishes/books/<book_id>/grant
 ```
 
 # Important files
-- [Models](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/models.py)
+- Models -  [src/bookplease/wishlist/models.py](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/models.py)
 
 - [Routes](https://github.com/ankihg/book-please/blob/master/src/bookplease/wishlist/urls.py)
 
